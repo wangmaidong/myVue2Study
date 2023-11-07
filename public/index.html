@@ -8,16 +8,38 @@
 </head>
 
 <body>
+  <div id="app">
+    <div style="color: red;background: green">
+      <div style="color:green" key="123">
+        {{ name }} hello {{age}} hello
+      </div>
+      <li> world </li>
+    </div>
+  </div>
   <script src="/dist/umd/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
   <script>
     let vm = new Vue({
       data() {
         return {
           name: 'wl',
-          age: 12
+          age: 12,
+          address: {
+            home: 'hz',
+            compony: '众和'
+          },
+          arr: [{
+            label: '123',
+            value: '123'
+          }]
         }
-      }
+      },
+      el: '#app'
     })
+    vm.arr.push({
+      label: 'new'
+    })
+    console.log(vm)
   </script>
 </body>
 
