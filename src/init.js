@@ -4,6 +4,9 @@ import {
 import {
   compileToFunction
 } from './complier/index.js'
+import {
+  mountComponent
+} from './lifecycle.js'
 // 此方法就是给vue的原型增加方法
 export function initMixin(Vue) {
   // Vue原型添加_init初始化方法
@@ -36,8 +39,10 @@ export function initMixin(Vue) {
       // 如果 挂载的容器和模板都存在
       if (el && template) {
         const render = compileToFunction(template)
+        console.log(render)
         ops.render = render
       }
     }
+    mountComponent(vm, el)
   }
 }
