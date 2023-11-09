@@ -1,6 +1,7 @@
 import {
   newArrayPrototype
 } from './array.js'
+import { Dep } from './dep.js'
 class Observe {
   constructor(data) {
     // 将Observe的实例挂载到每个被观测的数据上
@@ -41,8 +42,13 @@ export function observe(data) {
 export function defineReactive(data, key, value) {
   // 如果value也是一个对象那么也要把对象里面的数据变为响应式
   observe(value)
+  // 每个被添加了响应式的数据都有一个自己的依赖实力
+  const dep = new Dep()
   Object.defineProperty(data, key, {
     get() {
+      if (Dep.target) {
+        dep.depend()
+      }
       console.log('取值操作')
       return value
     },
@@ -51,6 +57,7 @@ export function defineReactive(data, key, value) {
       // 如果设置的值是一个对象那么也要进行响应式的劫持
       observe(newVal)
       value = newVal
+      dep.notify()
     }
   })
 }

@@ -10,7 +10,7 @@
 <body>
   <div id="app">
     <div style="color: red;background: green">
-      <div style="color:green" key="123">
+      <div style="color: yellow" key="123">
         {{name}} hello {{age}} hello
       </div>
       <li> world </li>
@@ -36,9 +36,13 @@
       },
       el: '#app'
     })
-    vm.arr.push({
-      label: 'new'
-    })
+    setTimeout(() => {
+      vm.name = 'zs0'
+      vm.name = 'zs1'
+      vm.name = 'zs2'
+      vm.name = 'zs3'
+      vm.age = 23
+    }, 2000)
     console.log(vm)
   </script>
 </body>
