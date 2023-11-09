@@ -19,6 +19,20 @@
   <script src="/dist/umd/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
   <script>
+    Vue.mixin({
+      created() {
+        console.log(1)
+      },
+      a:1,
+      b: 2
+    })
+    Vue.mixin({
+      created() {
+        console.log(2)
+      },
+      a:3,
+      c: 4
+    })
     let vm = new Vue({
       data() {
         return {
@@ -34,6 +48,9 @@
           }]
         }
       },
+      created() {
+        console.log(3)
+      },
       el: '#app'
     })
     setTimeout(() => {
@@ -44,6 +61,7 @@
       vm.age = 23
     }, 2000)
     console.log(vm)
+    console.log("Vue-->", Vue.options)
   </script>
 </body>
 

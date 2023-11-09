@@ -74,7 +74,7 @@ function flushCallBacks () {
     waiting = false
     cbs.forEach(cb => cb())
 }
-function nextTick(cb) {
+export function nextTick(cb) {
     callBacks.push(cb)
     if(!waiting) {
         Promise.resolve().then(flushCallBacks)

@@ -5,17 +5,21 @@ import {
   compileToFunction
 } from './complier/index.js'
 import {
-  mountComponent
+  mountComponent, callHook
 } from './lifecycle.js'
+import { mergeOptions } from './utils.js'
 // 此方法就是给vue的原型增加方法
 export function initMixin(Vue) {
   // Vue原型添加_init初始化方法
   Vue.prototype._init = function (options) {
     const vm = this
     // 在vue实力上添加一个$options,就是用户new Vue传递的对象
-    vm.$options = options
+    // vm.$options = options
+    vm.$options = mergeOptions(this.constructor.options, options)
     // 初始化状态
+    callHook(vm, 'beforeCreate')
     initState(vm)
+    callHook(vm, 'created')
     // 初始化完数据就可以将模板-->ast语法树--->render函数----->虚拟dom----->真实dom
     if (options.el) {
       vm.$mount(options.el)
