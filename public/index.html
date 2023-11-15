@@ -11,9 +11,8 @@
   <div id="app">
     <div style="color: red;background: green">
       <div style="color: yellow" key="123">
-        {{name}} hello {{age}} hello
+        {{ fullName }}
       </div>
-      <li> world </li>
     </div>
   </div>
   <script src="/dist/umd/vue.js"></script>
@@ -38,6 +37,8 @@
         return {
           name: 'wl',
           age: 12,
+          firstName: 'janmes',
+          lastName: 'band',
           address: {
             home: 'hz',
             compony: '众和'
@@ -48,19 +49,31 @@
           }]
         }
       },
+      computed: {
+        fullName() {
+          return this.firstName + this.lastName
+        }
+      },
+      watch: {
+        firstName(oldValue, newValue) {
+          console.log('old---->',oldValue),
+          console.log('new---->', newValue)
+        }
+      },
       created() {
         console.log(3)
       },
       el: '#app'
     })
     setTimeout(() => {
-      vm.name = 'zs0'
-      vm.name = 'zs1'
-      vm.name = 'zs2'
-      vm.name = 'zs3'
-      vm.age = 23
+      vm.firstName = 'white'
+      
     }, 2000)
-    console.log(vm)
+    setTimeout(() => {
+      vm.firstName = 'hhhhhh'
+      
+    }, 5000)
+    // console.log(vm)
     console.log("Vue-->", Vue.options)
   </script>
 </body>

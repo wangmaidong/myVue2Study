@@ -19,3 +19,13 @@ export class Dep {
     }
 }
 Dep.target = null
+// 后面会不止一个渲染watcher,所以用一个数组栈维护起来
+let stack = []
+export function pushTarget(watcher) {
+    stack.push(watcher)
+    Dep.target = watcher
+}
+export function popTarget() {
+    stack.pop()
+    Dep.target = stack[stack.length - 1]
+}
