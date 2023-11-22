@@ -2,13 +2,15 @@ import {
   initMixin
 } from './init.js'
 import {
-  initLifeCycle
+  initLifeCycle,
 } from './lifecycle.js'
 import {
   Watcher,
   nextTick
 } from './observe/watcher.js'
 import { initGlobalApi } from './gloablAPI.js'
+import { compileToFunction } from './complier/index.js'
+import { createElm } from './vdom/patch.js'
 function Vue(options) {
   // 初始化用户传递进来的选项
   this._init(options)
@@ -22,3 +24,15 @@ initMixin(Vue)
 initLifeCycle(Vue)
 initGlobalApi(Vue)
 export default Vue
+let vm1 = new Vue({
+  data() {
+    return {
+      name: 'wl'
+    }
+  },
+  template: `<div>{{name}}</div>`
+})
+let render1 = compileToFunction(vm1.$options.template)
+let vnode1 = render1.call(vm1)
+let ele1 = createElm(vnode1)
+console.log("ele1--->", ele1)
