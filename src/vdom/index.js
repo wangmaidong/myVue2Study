@@ -24,3 +24,9 @@ function vnode (vm, tag, key, data, children, text) {
         text
     }
 }
+
+export function isSameVnode(vnode1, vnode2){
+    // 两个虚拟节点得标签名一样且key值一样就是相同的虚拟dom节点
+    // 如果没有传key那么就是undefined ，也认为相等
+    return vnode1.tag === vnode2.tag && vnode1.key === vnode2.key
+}

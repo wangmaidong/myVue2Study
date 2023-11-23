@@ -11,7 +11,7 @@ function genProps(attrs) {
       let obj = {}
       attr.value.split(';').forEach(item => {
         let [key, value] = item.split(':')
-        obj[key] = value
+        obj[key.trim()] = value
       })
       attr.value = obj
     }

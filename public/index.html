@@ -9,72 +9,67 @@
 
 <body>
   <div id="app">
-    <div style="color: red;background: green">
-      <div style="color: yellow" key="123">
-        {{ fullName }}
-      </div>
-    </div>
   </div>
   <script src="/dist/umd/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
   <script>
-    Vue.mixin({
-      created() {
-        console.log(1)
-      },
-      a:1,
-      b: 2
-    })
-    Vue.mixin({
-      created() {
-        console.log(2)
-      },
-      a:3,
-      c: 4
-    })
-    let vm = new Vue({
-      data() {
-        return {
-          name: 'wl',
-          age: 12,
-          firstName: 'janmes',
-          lastName: 'band',
-          address: {
-            home: 'hz',
-            compony: '众和'
-          },
-          arr: [{
-            label: '123',
-            value: '123'
-          }]
-        }
-      },
-      computed: {
-        fullName() {
-          return this.firstName + this.lastName
-        }
-      },
-      watch: {
-        firstName(oldValue, newValue) {
-          console.log('old---->',oldValue),
-          console.log('new---->', newValue)
-        }
-      },
-      created() {
-        console.log(3)
-      },
-      el: '#app'
-    })
-    setTimeout(() => {
-      vm.firstName = 'white'
+    // Vue.mixin({
+    //   created() {
+    //     console.log(1)
+    //   },
+    //   a:1,
+    //   b: 2
+    // })
+    // Vue.mixin({
+    //   created() {
+    //     console.log(2)
+    //   },
+    //   a:3,
+    //   c: 4
+    // })
+    // let vm = new Vue({
+    //   data() {
+    //     return {
+    //       name: 'wl',
+    //       age: 12,
+    //       firstName: 'janmes',
+    //       lastName: 'band',
+    //       address: {
+    //         home: 'hz',
+    //         compony: '众和'
+    //       },
+    //       arr: [{
+    //         label: '123',
+    //         value: '123'
+    //       }]
+    //     }
+    //   },
+    //   computed: {
+    //     fullName() {
+    //       return this.firstName + this.lastName
+    //     }
+    //   },
+    //   watch: {
+    //     firstName(oldValue, newValue) {
+    //       console.log('old---->',oldValue),
+    //       console.log('new---->', newValue)
+    //     }
+    //   },
+    //   created() {
+    //     console.log(3)
+    //   },
+    //   el: '#app'
+    // })
+    // setTimeout(() => {
+    //   vm.firstName = 'white'
       
-    }, 2000)
-    setTimeout(() => {
-      vm.firstName = 'hhhhhh'
+    // }, 2000)
+    // setTimeout(() => {
+    //   vm.firstName = 'hhhhhh'
       
-    }, 5000)
-    // console.log(vm)
-    console.log("Vue-->", Vue.options)
+    // }, 5000)
+    // // console.log(vm)
+    // console.log("Vue-->", Vue.options)
   </script>
 </body>
 
