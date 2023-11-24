@@ -60,8 +60,6 @@ export function patch(oldVNode, vnode) {
 
 function patchVnode(oldVNode, vnode) {
     // 这是比较更新的逻辑
-    console.log(oldVNode)
-    console.log(vnode)
     // 如果两个节点不是相同的,那么父节点直接替换掉原有的子节点
     if (!isSameVnode(oldVNode, vnode)) {
         let newEl = createElm(vnode)
@@ -131,14 +129,31 @@ function updateChildren(el, oldChildren,newChildren) {
             // 然后让头部指针向后移动
             oldStartVnode = oldChildren[++oldStartIndex]
             newStartVnode = newChildren[++newStartIndex]
+        } else if(isSameVnode(oldEndVnode, newEndVnode)) {
+            // 旧 a  b  c  新   d  e  a  b  c
+            // 这种情况需要从尾部开始对比
+            patchVnode(oldEndVnode, newEndVnode)
+            oldEndVnode = oldChildren[--oldEndIndex]
+            newEndVnode = newChildren[--newEndIndex]
         }
     }
 
     // 跳出while循环之后一定是旧子节点列表的头尾指针或者新子节点列表的头尾指针越界了
+    // 新的多了，那就要追加
     if(newStartIndex <= newEndIndex) {
         for(let i = newStartIndex; i <= newEndIndex ; i++) {
             let childEl = createElm(newChildren[i])
-            el.appendChild(childEl)
+            // 不能直接向后插入了，第二种情况就不行了
+            // el.appendChild(childEl)
+            // 需要一个插入锚点
+            let anchor = oldChildren[oldEndIndex + 1] ? oldChildren[oldEndIndex + 1].el : null
+            el.insertBefore(childEl, anchor)
+        }
+    }
+    // 老的多了，就要删除
+    if(oldStartIndex <= oldEndIndex) {
+        for(let i = oldStartIndex; i <= oldEndIndex; i++) {
+            el.removeChild(oldChildren[i].el)
         }
     }
 }
