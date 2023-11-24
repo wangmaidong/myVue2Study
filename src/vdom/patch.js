@@ -135,6 +135,13 @@ function updateChildren(el, oldChildren,newChildren) {
             patchVnode(oldEndVnode, newEndVnode)
             oldEndVnode = oldChildren[--oldEndIndex]
             newEndVnode = newChildren[--newEndIndex]
+        } else if(isSameVnode(oldEndVnode, newStartVnode)) {
+            // 旧 a  b  c  d  新  d  c  b  a
+            // 这种情况需要头尾对比
+            patchVnode(oldEndVnode, newStartVnode)
+            el.insertBefore(oldEndVnode.el, oldStartVnode.el)
+            oldEndVnode = oldChildren[--oldEndIndex]
+            newStartVnode = newChildren[++newStartIndex]
         }
     }
 

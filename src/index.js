@@ -31,11 +31,10 @@ let vm1 = new Vue({
     }
   },
   template: `<ul style="color: red">
-  <li key="d">d</li>
-  <li key="e">e</li>
   <li key="a">a</li>
   <li key="b">b</li>
   <li key="c">c</li>
+  <li key="d">d</li>
   </ul>`
 })
 let render1 = compileToFunction(vm1.$options.template)
@@ -50,9 +49,10 @@ let vm2 = new Vue({
     }
   },
   template: `<ul style="color: red">
-  <li key="a">a</li>
-  <li key="b">b</li>
+  <li key="d">d</li>
   <li key="c">c</li>
+  <li key="b">b</li>
+  <li key="a">a</li>
   </ul>`
 })
 let render2 = compileToFunction(vm2.$options.template)
@@ -60,4 +60,4 @@ let nextVnode = render2.call(vm2)
 
 setTimeout(() => {
   patch(preVnode, nextVnode)
-}, 2000)
+}, 5000)
