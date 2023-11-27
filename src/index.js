@@ -49,10 +49,12 @@ let vm2 = new Vue({
     }
   },
   template: `<ul style="color: red">
-  <li key="d">d</li>
-  <li key="c">c</li>
   <li key="b">b</li>
+  <li key="m">m</li>
   <li key="a">a</li>
+  <li key="p">p</li>
+  <li key="c">c</li>
+  <li key="q">q</li>
   </ul>`
 })
 let render2 = compileToFunction(vm2.$options.template)

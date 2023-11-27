@@ -106,6 +106,13 @@ function unmountChildren(el) {
         el.removeChild(childList[i])
     }
 }
+function makeIndexByKey(arr) {
+    let map = {}
+    arr.forEach((item, index) => {
+        map[item.key] = index
+    })
+    return map
+}
 function updateChildren(el, oldChildren,newChildren) {
     // 新旧节点列表的开头
     let oldStartIndex = 0
@@ -119,11 +126,16 @@ function updateChildren(el, oldChildren,newChildren) {
     // 新旧节点列表的尾部虚拟节点
     let oldEndVnode = oldChildren[oldEndIndex]
     let newEndVnode = newChildren[newEndIndex]
+    let map = makeIndexByKey(oldChildren)
     // 进行比对 ，条件是新旧节点列表的头部指针要小于等于尾部指针
     while(oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
-        // 旧 a b c  新  a  b  c  d  e  就是标签名相同且key值相同
-        // 这种让他们从头开始比对
-        if(isSameVnode(oldStartVnode, newStartVnode)) {
+        if (!oldStartVnode) {
+            oldStartVnode = oldChildren[++oldStartIndex]
+        } else if (!oldEndVnode) {
+            oldEndVnode = oldChildren[--oldEndIndex]
+        } else if(isSameVnode(oldStartVnode, newStartVnode)) {
+            // 旧 a b c  新  a  b  c  d  e  就是标签名相同且key值相同
+           // 这种让他们从头开始比对
             // 比对 oldStartVnode newStartVnode 更新节点的属性和内容
             patchVnode(oldStartVnode, newStartVnode)
             // 然后让头部指针向后移动
@@ -141,6 +153,21 @@ function updateChildren(el, oldChildren,newChildren) {
             patchVnode(oldEndVnode, newStartVnode)
             el.insertBefore(oldEndVnode.el, oldStartVnode.el)
             oldEndVnode = oldChildren[--oldEndIndex]
+            newStartVnode = newChildren[++newStartIndex]
+        } else if(isSameVnode(oldStartVnode, newEndVnode)) {
+            patchVnode(oldStartVnode, newEndVnode)
+            el.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling)
+            oldStartVnode = oldChildren[++oldStartIndex]
+            newEndVnode = newChildren[--newEndIndex]
+        } else {
+            let moveIndex = map[newStartVnode.key]
+            if(moveIndex) {
+                patchVnode(oldChildren[moveIndex], newStartVnode)
+                el.insertBefore(oldChildren[moveIndex].el, oldStartVnode.el)
+                oldChildren[moveIndex] = undefined
+            } else {
+                el.insertBefore(createElm(newStartVnode), oldStartVnode.el)
+            }
             newStartVnode = newChildren[++newStartIndex]
         }
     }
@@ -160,7 +187,9 @@ function updateChildren(el, oldChildren,newChildren) {
     // 老的多了，就要删除
     if(oldStartIndex <= oldEndIndex) {
         for(let i = oldStartIndex; i <= oldEndIndex; i++) {
-            el.removeChild(oldChildren[i].el)
+            if(oldChildren[i]) {
+                el.removeChild(oldChildren[i].el)
+            }
         }
     }
 }
